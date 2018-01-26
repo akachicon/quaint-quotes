@@ -1,0 +1,138 @@
+extends layout-basic
+
+block content
+    div(class='container mt-4 wrapper ad-font')
+      div(class='row account-header')
+        h2(class='pl-3 pt-1 mb-1') Account information
+      form#userData
+        div(class='row px-3')
+          div(class='col delimiter')
+        div(class='row align-items-center')
+          .col-6
+            p(class='pl-1 my-2 font-weight-bold') Username:
+          .col-6
+            input(
+              type='text'
+              name='username'
+              class='my-2 ml-1'
+              value=username
+              disabled
+            )
+            .underline
+        div(class='row username-tip')
+          .col-6
+            p.pl-1 Username must be from 3 to 24 characters and consist only of A-Z, a-z, 0-9 and _
+          div(class='col-5 username-alert')
+            span(class='fas fa-fw fa-exclamation fa-xs')
+            .
+              Error message
+        .row
+          .col-6
+            p(class='pl-1 my-2 font-weight-bold') E-mail:
+          .col-6
+            input(
+              type='text'
+              name='email'
+              class='my-2 ml-1'
+              value=email
+              disabled
+            )
+            div(class='underline underline-additional')
+        .row
+          div(class='col-5 offset-6 email-alert')
+            div(class='error-message-width m-0 p-0')
+              span(class='fas fa-fw fa-exclamation fa-xs')
+              .
+                Error message
+            span(class='fas fa-fw fa-exclamation fa-xs')
+            .
+              Error message
+      div(class='row my-1')
+        div(class='col-5 col-sm-4 col-md-3 pr-1')
+          button(
+            id='btnAccLeft'
+            class='btn-acc-change w-100'
+          ) CHANGE
+        div(class='col-5 col-sm-4 col-md-3 pl-1')
+          button(
+            id='btnAccRight'
+            class='btn-acc-save btn-acc-save-disabled w-100'
+          ) SAVE
+
+      div(class='row px-3')
+        div(class='col delimiter')
+
+      div(class='row change-password-header')
+        h3(class='pl-3 pt-1') Change password
+      form#passwordData
+        .row
+          div(class='col-12 col-sm-9 password-tip') Password must be from 6 to 24 characters and consist only of A-Z, a-z, 0-9, _ and -
+            |. For each of A-Z, a-z, 0-9 at least one character must be presented.
+        div(class='row align-items-center')
+          .col
+            div(class='text-pass my-2 ml-1') Old password
+            input(
+              type='password'
+              name='oldpass'
+              class='my-2 ml-1'
+            )
+            .underline-pass
+        .row
+          div(class='col col-sm-9 col-md-6 alert-pass')
+            div(class='error-message-width m-0 p-0')
+              span(class='fas fa-fw fa-exclamation fa-xs')
+              .
+                Error message
+            span(class='fas fa-fw fa-exclamation fa-xs')
+            .
+              Error message
+        div(class='row align-items-center')
+          .col
+            div(class='text-pass my-2 ml-1') New password
+            input(
+              type='password'
+              name='newpass'
+              class='my-2 ml-1'
+            )
+            .underline-pass
+        .row
+          div(class='col col-sm-9 col-md-6 alert-pass')
+            div(class='error-message-width m-0 p-0')
+              span(class='fas fa-fw fa-exclamation fa-xs')
+              .
+                Error message
+            span(class='fas fa-fw fa-exclamation fa-xs')
+            .
+              Error message
+        div(class='row align-items-center')
+          .col
+            div(class='text-pass my-2 ml-1') Confirm password
+            input(
+              type='password'
+              name='confpass'
+              class='my-2 ml-1'
+            )
+            .underline-pass
+        .row
+          div(class='col col-sm-9 col-md-6 alert-pass')
+            div(class='error-message-width m-0 p-0')
+              span(class='fas fa-fw fa-exclamation fa-xs')
+              .
+                Error message
+            span(class='fas fa-fw fa-exclamation fa-xs')
+            .
+              Error message
+        .row
+          div(class='col-12 save-pass-message')
+            p(class='mb-0 ml-1') Password saved
+      div(class='row mt-2 mb-3')
+        div(class='col-5 col-sm-4 col-md-3 pr-1')
+          button(
+            id='btnPassLeft'
+            class='btn-acc-change w-100'
+          ) SHOW
+        div(class='col-5 col-sm-4 col-md-3 pl-1')
+          button(
+            id='btnPassRight'
+            class='btn-acc-save w-100'
+          ) SAVE

@@ -1,0 +1,243 @@
+@media (max-width: 575px) {
+    .custom-info {
+        color: gray !important;
+        font-weight: 400 !important;
+        background: transparent !important;
+        margin: auto !important;
+        border: none !important;
+    }
+    .custom-info:hover,
+    .custom-info:active,
+    .custom-info:focus {
+        color: #0f0f0f !important;
+    }
+    .nav-item {
+        margin: auto;
+    }
+}
+
+.custom-info {
+    background: transparent;
+}
+
+.modal-footer .text-secondary,
+.modal-footer a {
+    font-size: .9rem;
+}
+
+#leftHeaderButton.custom-info,
+#rightHeaderButton.custom-info {
+    font-weight: 500;
+    color: #187291;
+    border: 1px solid #2398a8;
+    box-shadow: none;
+}
+
+#leftHeaderButton.custom-info:hover,
+#rightHeaderButton.custom-info:hover,
+#leftHeaderButton.custom-info:active,
+#rightHeaderButton.custom-info:active {
+    color: #fffbf7;
+}
+
+#leftHeaderButton.custom-info.pressed,
+#rightHeaderButton.custom-info.pressed {
+    color: #fffbf7;
+    background: #226e7e;
+}
+
+#loginModal .modal-content,
+#signupModal .modal-content,
+#ackModal .modal-content,
+#pwdModal .modal-content {
+    margin-top: 4.5rem;
+    box-shadow: 0 0 10px 2px #666666;
+    border: none;
+    border-radius: 2px;
+}
+
+#loginModal .modal-header,
+#signupModal .modal-header,
+#ackModal .modal-header,
+#pwdModal .modal-header {
+    color: white;
+    background: #1ca5af;
+    border-radius: 2px 2px 0 0;
+}
+
+#loginModal .modal-footer,
+#signupModal .modal-footer,
+#ackModal .modal-footer,
+#pwdModal .modal-footer {
+    background: #dcf2f0;
+}
+
+#loginModal .btn-close,
+#loginModal .btn-confirm,
+#signupModal .btn-close,
+#signupModal .btn-confirm,
+#ackModal .btn-close,
+#pwdModal .btn-close,
+#pwdModal .btn-confirm {
+    border-radius: 1px;
+}
+
+#loginModal .btn-confirm,
+#signupModal .btn-confirm,
+#pwdModal .btn-confirm {
+    background: #48adad;
+    border-color: #54afaf;
+}
+
+#loginModal .btn-confirm:hover,
+#signupModal .btn-confirm:hover,
+#pwdModal .btn-confirm:hover,
+#loginModal .btn-confirm:active,
+#signupModal .btn-confirm:active,
+#pwdModal .btn-confirm:active {
+    background: #398c8c;
+    border-color: #317777;
+}
+
+#loginModal .btn-close:focus,
+#signupModal .btn-close:focus,
+#pwdModal .btn-close:focus,
+#loginModal .btn-confirm:focus,
+#signupModal .btn-confirm:focus,
+#ackModal .btn-close:focus,
+#pwdModal .btn-confirm:focus {
+    box-shadow: none;
+}
+
+#loginModal input:focus,
+#signupModal input:focus,
+#pwdModal input:focus {
+    box-shadow: inset 0 0 1px 1px #3ca6c4;
+}
+
+#loginModal input.invalid-submit,
+#signupModal input.invalid-submit,
+#pwdModal input.invalid-submit {
+    box-shadow: inset 0 0 1px 1px firebrick;
+    border-color: #e86045;
+}
+
+#loginModal input[type='checkbox'] {
+    margin-top: .405rem;
+}
+
+#loginModal input[type='checkbox']:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+#signupModal input.form-control,
+#loginModal input.form-control,
+#pwdModal input.form-control {
+    transition: all .3s;
+}
+
+#signupSubmit.pressed,
+#signupSubmit.pressed:hover,
+#loginSubmit.pressed,
+#loginSubmit.pressed:hover,
+#pwdSubmit.pressed,
+#pwdSubmit.pressed:hover {
+    background: #0b8193;
+    box-shadow: none;
+    transition: .1s;
+}
+
+/*---creating custom checkbox---*/
+
+#loginModal [type="checkbox"]:not(:checked),
+#loginModal [type="checkbox"]:checked {
+    display: none;
+}
+
+#loginModal label,
+#loginModal label {
+    cursor: pointer;
+    user-select: none;
+}
+
+#loginModal label:before {
+    content: '';
+    position: absolute;
+    margin-top: .3rem;
+    margin-left: .063rem;
+    left: 0;
+    top: 0;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #bbb;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 2px rgba(0,0,0,.3);
+}
+
+#loginModal label:after {
+    content: '';
+    background: #5eaeb2;
+    position: absolute;
+    margin-top: .5rem;
+    margin-left: .263rem;
+    top: 0;
+    left: 0;
+    width: .6rem;
+    height: .6rem;
+    border-radius: 2px;
+    border: 1px solid #589fa3;
+    transition: all .13s ease-in;
+}
+
+#loginModal [type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+
+#loginModal label:hover:before {
+    border: 1px solid #777;
+}
+
+/*---custom checkbox created---*/
+
+.input-alert {
+    font-size: .9rem;
+    color: firebrick;
+    user-select: none;
+    height: 1.30rem;
+    overflow: hidden;
+    transition: all .15s;
+}
+
+.input-alert.warning {
+    color: #bc6f2b;
+}
+
+.input-alert-hidden {
+    height: 0;
+}
+
+.input-group-addon {
+    transition: .25s;
+}
+
+.input-group-addon.invalid {
+    background: #ff5959;
+    transition: .25s;
+}
+
+.input-group-addon.valid {
+    background: #4bdd66;
+    transition: .25s;
+}
+
+.input-group-addon.warning {
+    background: #e8b343;
+    transition: .25s;
+}
+
+.input-group-addon.warning:hover {
+    color: #111;
+}

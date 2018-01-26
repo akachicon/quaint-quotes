@@ -1,0 +1,195 @@
+@media (min-width: 48em) {
+    .container {
+        max-width: 46rem;
+        background: #fefefe;
+    }
+    .wrapper.ad-font {
+        font-size: 1.2rem;
+    }
+}
+
+.wrapper {
+    border: 1px solid #b9b9b9;
+    border-radius: 2px;
+    box-shadow: 0 0 1px 0 #bcbcbc;
+}
+
+.account-header h2:first-letter {
+    color: #0b7a8c;
+}
+
+#btnAccLeft,
+#btnAccRight,
+#btnPassLeft,
+#btnPassRight {
+    color: white;
+    border: none;
+    outline: #0b7a8c;
+    border-radius: 2px;
+    transition: .2s;
+}
+
+.btn-acc-change {
+    background: #3b9191;
+}
+
+.btn-acc-cancel {
+    background: gray;
+}
+
+.btn-acc-save {
+    background: #3b9191;
+}
+
+.btn-acc-cancel:hover {
+    background: #6a6a6a;
+}
+
+.btn-acc-change:hover,
+.btn-acc-save:hover {
+    background: #317272;
+}
+
+.btn-acc-save.btn-acc-save-disabled {
+    background: #74c1c1;
+}
+
+.btn-acc-save.saving {
+    background: #317272;
+}
+
+#userData input[type='text'] {
+    background: transparent;
+    width: 80%;
+    border: none;
+    outline: none;
+}
+
+.underline {
+    position: absolute;
+    bottom: 6px;
+    background: #3f7577;
+    width: 0;
+    height: 2px;
+    transition: .3s;
+    transition-timing-function: ease-in;
+}
+
+.underline.error {
+    background: firebrick;
+}
+
+.underline-additional {
+    transition-timing-function: ease-out;
+}
+
+.underline.revealed {
+    width: 80%;
+    transition: .3s;
+}
+
+.username-tip {
+    font-size: .9rem;
+    height: 0;
+    overflow: hidden;
+    transition: .2s;
+}
+
+.username-alert,
+.email-alert,
+.alert-pass {
+    font-size: .9rem;
+    color: firebrick;
+    height: 0;
+    overflow: hidden;
+    transition: .2s;
+}
+
+.username-alert {
+    transition: none;
+}
+
+.error-message-width {
+    font-size: .9rem;
+    color: transparent;
+    position: absolute;
+    top: 0;
+}
+
+.delimiter {
+    height: 7px;
+    border-bottom: 1px solid #b9b9b9;
+}
+
+.change-password-header h3:first-letter {
+    color: #0b7a8c;
+}
+
+#passwordData input[type='text'],
+#passwordData input[type='password'] {
+    background: transparent;
+    width: 11em;
+    border: none;
+    outline: none;
+}
+
+#passwordData .password-tip {
+    font-size: .9rem;
+}
+
+.text-pass {
+    color: grey;
+    position: absolute;
+    top: 2px;
+    left: 13.1em;
+    transition: .2s;
+}
+
+.text-pass.error {
+    color: firebrick;
+}
+
+.text-pass:before {
+    content: '➤';
+    color: #2d6777;
+    position: absolute;
+    top: .2em;
+    left: -1.2em;
+    transform: rotate(0.5turn);
+}
+
+.text-pass.error:before {
+    color: firebrick;
+}
+
+.underline-pass {
+    position: absolute;
+    width: 12em;
+    bottom: 6px;
+    background: #3f7577;
+    height: 1px;
+    transition: .3s;
+    transition-timing-function: ease-in;
+}
+
+.underline-pass.error {
+    background: firebrick;
+}
+
+.save-pass-message {
+    font-size: 1rem;
+    font-weight: 500;
+    color: forestgreen;
+    height: 0;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.save-pass-message.showed {
+    height: 1.3rem;
+}
+
+.save-pass-message.just-showed {
+    color: #32967f;
+
+}

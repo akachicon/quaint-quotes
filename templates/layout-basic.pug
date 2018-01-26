@@ -1,0 +1,417 @@
+doctype html
+html(lang='en')
+  head
+    title Tidy auth
+    meta(charset='UTF-8')
+    meta(
+      name='viewport'
+      content='width=device-width, '
+        + 'initial-scale=1, '
+        + 'shrink-to-fit=no'
+    )
+    link(
+      rel='stylesheet'
+      href='/css/bootstrap.min.css'
+    )
+    link(
+      rel='stylesheet'
+      href='/css/layout-basic.css'
+    )
+    if (profile)
+      include includes/profile-head
+
+  body
+    //- header
+
+    nav(class='navbar navbar-expand-sm navbar-light bg-light py-1')
+      a(
+        class='navbar-brand py-0 my-0 mr-0'
+        href='#'
+      )
+        img(src="/miscellaneous/logo.svg" width="90" height="50" alt='')
+      button(
+        class='navbar-toggler'
+        type='button'
+        data-toggle='collapse'
+        data-target='#navbar'
+        aria-controls='navbar'
+        aria-expanded='false'
+        aria-label='Toggle navigation'
+      )
+        span.navbar-toggler-icon
+      div(
+        class='collapse navbar-collapse'
+        id='navbar'
+      )
+        ul(class='navbar-nav mr-auto')
+          li.nav-item
+            a(
+              class='nav-link'
+              href='#'
+            ) Home
+          li.nav-item
+            a(
+              class='nav-link'
+              href='#'
+            ) Features
+          li.nav-item
+            a(
+              class='nav-link'
+              href='#'
+            ) Terms of use
+          li.nav-item
+            a(
+              class='nav-link'
+              href='#'
+            ) Contact
+        span(class='nav-link active d-none d-lg-inline') #{ (authorized ? '' : 'Welcome, ') + username }
+        div(
+          class='btn-group buttons-header d-block d-sm-flex'
+          role='group'
+          aria-label=authorized ? 'profile or exit' : 'login or signup'
+        )
+          button(
+            id='leftHeaderButton'
+            type='button'
+            class='btn btn-info custom-info d-block d-sm-inline-block'
+          ) #{ authorized ? 'Profile' : 'LogIn' }
+          button(
+            id='rightHeaderButton'
+            type='button'
+            class='btn btn-info custom-info d-block d-sm-inline-block'
+          ) #{ authorized ? 'LogOut' : 'SignUp' }
+
+    unless authorized
+
+      //- login modal
+
+      div(
+        id='loginModal'
+        class='modal fade'
+        tabindex='-1'
+        role='dialog'
+        aria-labelledby='loginModalTitle'
+        aria-hidden='true'
+      )
+        div(
+          class='modal-dialog'
+          role='document'
+        )
+          .modal-content
+            .modal-header
+              h5(
+                id='loginModalTitle'
+                class='modal-title pl-3'
+              ) Log In
+              button(
+                type='button'
+                class='close'
+                data-dismiss='modal'
+                aria-label='Close'
+              ) #[span(aria-hidden='true') &times;]
+
+            div(class='modal-body px-4')
+              form#loginForm
+                .form-group
+                  .input-group
+                    input(
+                      type='text'
+                      class='form-control'
+                      name='username'
+                      placeholder='Username'
+                    )
+                    span.input-group-addon
+                      span(class='fas fa-fw fa-envelope')
+                div(class='form-group mb-2')
+                  .input-group
+                    input(
+                      type='password'
+                      class='form-control'
+                      name='password'
+                      placeholder='Password'
+                    )
+                    span.input-group-addon
+                      span(class='fas fa-fw fa-lock')
+                div(class='from-group mb-1')
+                  div(class='input-alert input-alert-hidden text-truncate')
+                    span(class='fas fa-fw fa-exclamation fa-xs')
+                    .
+                      Both fields must be filled
+                div(class='row mb-2')
+                  .col-6
+                    .form-check
+                      input(
+                        type='checkbox'
+                        id='keepLogin'
+                        class='form-check-input'
+                        name='keeplogin'
+                        checked
+                      )
+                      label(
+                        for='keepLogin'
+                        class='form-check-label pl-4'
+                      ) Keep me logged in
+                  div(class='col-6 pr-4 text-right')
+                    a(
+                        href='#'
+                        class='reset-password-anchor'
+                      ) Forgot password?
+                div(class='form-row justify-content-end')
+                  .col-6
+                    button(
+                      type='button'
+                      class='btn btn-secondary btn-close w-100'
+                      data-dismiss='modal'
+                    ) CANCEL
+                  .col-6
+                    button(
+                      type='button'
+                      id='loginSubmit'
+                      class='btn btn-primary btn-confirm w-100'
+                    ) LOG ME IN
+
+            div(class='modal-footer justify-content-center')
+              div #[span.text-secondary Don't have an account? ]
+                a(
+                  href='#'
+                  class='signup-anchor'
+                ) Sign Up
+
+      //- signup modal
+
+      div(
+        id='signupModal'
+        class='modal fade'
+        tabindex='-1'
+        role='dialog'
+        aria-labelledby='signupModalTitle'
+        aria-hidden='true'
+      )
+        div(
+          class='modal-dialog'
+          role='document'
+        )
+          .modal-content
+            .modal-header
+              h5(
+                id='signupModalTitle'
+                class='modal-title pl-3'
+              ) Sign Up
+              button(
+                type='button'
+                class='close'
+                data-dismiss='modal'
+                aria-label='Close'
+              ) #[span(aria-hidden='true') &times;]
+
+            .modal-body
+              form#signupForm
+                .form-group
+                  div(class='input-group input-group-username')
+                    input(
+                      type='text'
+                      class='form-control'
+                      name='username'
+                      placeholder='Username'
+                    )
+                    span.input-group-addon
+                      span(class='fas fa-fw fa-user')
+                  div(class='input-alert input-alert-hidden text-truncate')
+                    span(class='fas fa-fw fa-exclamation fa-xs')
+                    .
+                      Error text
+                .form-group
+                  div(class='input-group input-group-email')
+                    input(
+                      type='text'
+                      class='form-control'
+                      name='email'
+                      placeholder='E-mail'
+                    )
+                    span.input-group-addon
+                      span(class='fas fa-fw fa-envelope')
+                  div(class='input-alert input-alert-hidden text-truncate')
+                    span(class='fas fa-fw fa-exclamation fa-xs')
+                    .
+                      Error text
+                .form-group
+                  div(class='input-group input-group-password')
+                    input(
+                      type='password'
+                      class='form-control'
+                      name='password'
+                      placeholder='Password'
+                    )
+                    span.input-group-addon
+                      span(class='fas fa-fw fa-lock')
+                  div(class='input-alert input-alert-hidden text-truncate')
+                    span(class='fas fa-fw fa-exclamation fa-xs')
+                    .
+                      Error text
+                .form-group
+                  div(class='input-group input-group-confpass')
+                    input(
+                      type='password'
+                      class='form-control'
+                      name='confpass'
+                      placeholder='Confirm password'
+                    )
+                    span.input-group-addon
+                      span(class='fas fa-fw fa-lock')
+                  div(class='input-alert input-alert-hidden text-truncate')
+                    span(class='fas fa-fw fa-exclamation fa-xs')
+                    .
+                      Error text
+                div(class='form-row justify-content-end mt-3')
+                  .col-6
+                    button(
+                      type='button'
+                      class='btn btn-secondary btn-close w-100'
+                      data-dismiss='modal'
+                    ) CANCEL
+                  .col-6
+                    button(
+                      type='button'
+                      id='signupSubmit'
+                      class='btn btn-primary btn-confirm w-100'
+                    ) SIGN ME UP
+
+            div(class='modal-footer justify-content-center')
+              div #[span.text-secondary Already have an account? ]
+                a(
+                  href='#'
+                  class='login-anchor'
+                ) Log In
+
+      //- acknowledgement modal
+
+      div(
+        id='ackModal'
+        class='modal fade'
+        tabindex='-1'
+        role='dialog'
+        aria-labelledby='ackModalTitle'
+        aria-hidden='true'
+      )
+        div(
+          class='modal-dialog'
+          role='document'
+        )
+          .modal-content
+            .modal-header
+              h5(
+                id='ackModalTitle'
+                class='modal-title pl-3'
+              ) Sign Up
+              button(
+                type='button'
+                class='close'
+                data-dismiss='modal'
+                aria-label='Close'
+              ) #[span(aria-hidden='true') &times;]
+
+            .modal-body
+              div(class='row justify-content-center')
+                .col
+                  p.text-center
+                    | The message was sent on your e-mail.
+                    | Please follow the instructions of it to confirm registration
+                    | (it could be in your spam accidentally and
+                    | take a few minutes to receive).
+              div(class='row w-100')
+                div(class='col-6 offset-3')
+                  button(
+                    type='button'
+                    class='btn btn-secondary btn-close w-100'
+                    data-dismiss='modal'
+                  ) CLOSE
+
+      //- password reset modal
+
+      div(
+        id='pwdModal'
+        class='modal fade'
+        tabindex='-1'
+        role='dialog'
+        aria-labelledby='pwdModalTitle'
+        aria-hidden='true'
+      )
+        div(
+          class='modal-dialog'
+          role='document'
+        )
+          .modal-content
+            .modal-header
+              h5(
+                id='pwdModalTitle'
+                class='modal-title pl-3'
+              ) Password Reset
+              button(
+                type='button'
+                class='close'
+                data-dismiss='modal'
+                aria-label='Close'
+              ) #[span(aria-hidden='true') &times;]
+
+            .modal-body
+              div(class='row justify-content-center')
+                .col
+                  p.text-center
+                    | Enter your username or e-mail in field below
+                    | and press 'GET PASSWORD' to receive a new password.
+                    | It will be sent on your e-mail
+                    | (it could be in your spam accidentally and
+                    | take a few minutes to receive).
+              form#pwdForm
+                div(class='form-group mb-1')
+                  .input-group
+                    input(
+                      type='text'
+                      class='form-control'
+                      name='recipient'
+                      placeholder='Username/e-mail'
+                    )
+                    span.input-group-addon
+                      span(class='fas fa-fw fa-user')
+                div(class='from-group mb-2')
+                  div(class='input-alert input-alert-hidden text-truncate')
+                    span(class='fas fa-fw fa-exclamation fa-xs')
+                    .
+                      Field must be filled
+              div(class='form-row justify-content-end')
+                .col-6
+                  button(
+                    type='button'
+                    class='btn btn-secondary btn-close w-100'
+                    data-dismiss='modal'
+                  ) CANCEL
+                .col-6
+                  button(
+                    type='button'
+                    id='pwdSubmit'
+                    class='btn btn-primary btn-confirm w-100'
+                  ) GET PASSWORD
+
+            div(class='modal-footer justify-content-center')
+              div
+                p(
+                  class='text-center text-secondary my-0'
+                 )
+                 | You can change your password on your profile page.
+                 | To access it you have to #[a(href="#" class="login-anchor") Log In]
+
+    block content
+      h2.pl-4 Sorry! No content to show.
+
+    script(src='/js/libs/jquery-3.2.1.min.js')
+    script(src='/js/libs/popper.min.js')
+    script(src='/js/libs/bootstrap.min.js')
+    script(src='/js/libs/fontawesome-all.min.js')
+
+    if authorized
+      script(src='/js/profile.js')
+    else
+      script(src='/js/auth.js')
+
+    if (profile)
+      script(src='/js/account.js')

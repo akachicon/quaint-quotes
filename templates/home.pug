@@ -1,0 +1,13 @@
+extends layout-basic
+
+block content
+  if (regSuccess)
+    p(
+      class='alert alert-success'
+      role='alert') #{ regSuccess }
+  if (regFailure)
+    p(
+      class='alert alert-danger'
+      role='alert') #{ regFailure }
+
+  h2.pl-4 Your are at home now. Welcome!

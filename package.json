@@ -1,0 +1,22 @@
+{
+  "name": "tidy-auth",
+  "version": "0.0.1",
+  "description": "basic authotization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "akachickon@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^2.0.0",
+    "express": "^4.16.2",
+    "express-flash-2": "^1.0.1",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.0.0-rc1",
+    "nodemailer": "^4.4.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
