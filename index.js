@@ -13,9 +13,7 @@ const express = require('express'),
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/templates');
 
-mongoose.connect('mongodb://127.0.0.1:27017/pvocab', {
-  user: 'pVocabMaintainer',
-  pass: 'p_Vocab-01',
+mongoose.connect('mongodb://tidy-auth:p+vocaB_02@ds161833.mlab.com:61833/pvocab', {
   autoReconnect: true,
   reconnectTries: 60,
   reconnectInterval: 10000,
