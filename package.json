@@ -1,13 +1,22 @@
 {
   "name": "tidy-auth",
   "version": "0.0.1",
-  "description": "basic authotization",
+  "description": "local authentication/authotization",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
-  "author": "akachickon@gmail.com",
-  "license": "ISC",
+  "keywords": ["web", "express", "express.js", "auth", "authorization", "authentication", "passpot.js", "passport", "pug", "node", "mongo", "mongodb"],
+  "author": {
+    "name": "Dan Z.",
+    "email": "akachicon@gmail.com",
+    "url": "https://github.com/akachicon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akachicon/express-app-template-auth"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^2.0.0",
