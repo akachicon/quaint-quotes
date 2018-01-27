@@ -13,6 +13,7 @@ let userSchema = new mongoose.Schema({
 
 userSchema.index({ expireAt: 1 }, {       // autoIndexes and background are true by default
   name: 'regIdx',
+  sparse: true,
   expireAfterSeconds: 300 // 60 * 60 * 24
 });
 

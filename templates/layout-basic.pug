@@ -47,22 +47,22 @@ html(lang='en')
           li.nav-item
             a(
               class='nav-link'
-              href='#'
+              href='/'
             ) Home
           li.nav-item
             a(
               class='nav-link'
-              href='#'
+              href='/features'
             ) Features
           li.nav-item
             a(
               class='nav-link'
-              href='#'
+              href='/termsofuse'
             ) Terms of use
           li.nav-item
             a(
               class='nav-link'
-              href='#'
+              href='/contact'
             ) Contact
         span(class='nav-link active d-none d-lg-inline') #{ (authorized ? '' : 'Welcome, ') + username }
         div(
@@ -248,7 +248,7 @@ html(lang='en')
                     span(class='fas fa-fw fa-exclamation fa-xs')
                     .
                       Error text
-                .form-group
+                div(class='form-group mb-1')
                   div(class='input-group input-group-confpass')
                     input(
                       type='password'
@@ -262,7 +262,13 @@ html(lang='en')
                     span(class='fas fa-fw fa-exclamation fa-xs')
                     .
                       Error text
-                div(class='form-row justify-content-end mt-3')
+                div(class='form-row justify-content-center mx-1 tou')
+                  div #[span.text-secondary By clicking "SIGN ME UP" you agree our ]
+                    a(
+                      href='/termsofuse'
+                      class='tou-anchor'
+                    ) Terms of use
+                div(class='form-row justify-content-end mt-2')
                   .col-6
                     button(
                       type='button'

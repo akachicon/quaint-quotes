@@ -7,7 +7,22 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "keywords": ["web", "express", "express.js", "auth", "authorization", "authentication", "passpot.js", "passport", "pug", "node", "mongo", "mongodb"],
+  "keywords": [
+    "web",
+    "express",
+    "express.js",
+    "auth",
+    "authorization",
+    "authentication",
+    "passpot.js",
+    "passport",
+    "pug",
+    "adaptive",
+    "responsive",
+    "node",
+    "mongo",
+    "mongodb"
+  ],
   "author": {
     "name": "Dan Z.",
     "email": "akachicon@gmail.com",
@@ -26,6 +41,8 @@
     "mongoose": "^5.0.0-rc1",
     "nodemailer": "^4.4.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.0-rc.4",
+    "serve-favicon": "^2.4.5"
   }
 }
