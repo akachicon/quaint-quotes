@@ -160,7 +160,9 @@ function respond(req, res, next) {
                 to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : req.body.email,
                 subject: 'Your personal-vocabulary account registration',
                 html: '<p>Use the suggested link to activate your account:</p>'
-                  + '<a href="http://localhost:3000/signup/acknowledge?username='
+                  + '<a href="http://'
+                  + process.env.NODE_ENV === 'development' ? process.env.DEV_ADDRESS : process.env.PROD_ADDRESS
+                  + '/signup/acknowledge?username='
                   + req.body.username + '&hash=' + hash + '">http://localhost:3000/signup/acknowledge?username='
                   + req.body.username + '&hash=' + hash + '</a>'
               },
