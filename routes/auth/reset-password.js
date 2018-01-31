@@ -37,7 +37,7 @@ pwdreset.post('/', (req, res, next) => {       // in case session had staled whi
     pwdUpdated.then(() => {
       transporter.sendMail({
           from: 'personal-vocabulary@yandex.com',
-          to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : req.body.email,
+          to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : email,
           subject: 'Your personal-vocabulary password update',
           html: '<p>Your new password is below. Remember to change it on profile page after you log in.</p>'
             + '<p style="font-size: 24px; font-weight: 600; color: #276884">' + pwd + '</p>'
