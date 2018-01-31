@@ -4,8 +4,9 @@ function setup() {
   let config = winston.config,
     formatter = function (options) {
       return config.colorize(options.level, options.level.toUpperCase()) + ' ' +
-        (options.message ? options.message : '') +
-        (options.meta && Object.keys(options.meta).length ? '\n\t'+ JSON.stringify(options.meta) : '' );
+        (options.meta && Object.keys(options.meta).length && process.env.NODE_ENV === 'production'
+          ? '\t'+ options.meta.stack
+          : (options.message ? options.message : ''));
     },
     loggers = [];
 

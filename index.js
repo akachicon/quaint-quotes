@@ -115,12 +115,12 @@ app.use(pugOptions, (req, res, next) => {
 
 app.use((err, req, res, next) => {
   if (err.status === 403 || err.status === 404)
-    logger.warn(err);
+    logger.warn(err.message);
   else
-    logger.error(err);
+    logger.error(err.message, { stack: err.stack });
 
   if (app.get('env') === 'development')
-    next(err);        // to use default error handler
+    next(err);        // use default express error handler to send an err to a client
   else
     if (err instanceof HttpError) {
       req.pugOptions.statusMessage = err.message;
