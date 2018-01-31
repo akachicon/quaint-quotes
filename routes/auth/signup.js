@@ -161,9 +161,11 @@ function respond(req, res, next) {
                 subject: 'Your personal-vocabulary account registration',
                 html: '<p>Use the suggested link to activate your account:</p>'
                   + '<a href="http://'
-                  + process.env.NODE_ENV === 'development' ? process.env.DEV_ADDRESS : process.env.PROD_ADDRESS
+                  + (process.env.NODE_ENV === 'development' ? process.env.DEV_ADDRESS : process.env.PROD_ADDRESS)
                   + '/signup/acknowledge?username='
-                  + req.body.username + '&hash=' + hash + '">http://localhost:3000/signup/acknowledge?username='
+                  + req.body.username + '&hash=' + hash + '">http://'
+                  + (process.env.NODE_ENV === 'development' ? process.env.DEV_ADDRESS : process.env.PROD_ADDRESS)
+                  + '/signup/acknowledge?username='
                   + req.body.username + '&hash=' + hash + '</a>'
               },
               (err, info) => {
