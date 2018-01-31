@@ -49,6 +49,10 @@ logSub.on('click', loginRequest);
 sigSub.on('click', signupValidate);
 pwdSub.on('click', pwdRequest);
 
+$('#pwdForm').on('submit', (e) => {
+  e.preventDefault();
+});
+
 class InputGroupHandler {
   constructor(input, addon, alert, ...checks) {
     this.inputField = input;
