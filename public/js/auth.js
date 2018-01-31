@@ -282,14 +282,14 @@ function extendUsername() {
           alert.removeClass('warning');
           username.success();        // used to apply 'valid' style
         },
-        406: () => {
+        400: () => {
           if (!actual) return;
 
           txtNode.nodeValue = ' The username has already been used';
           addon.removeClass('warning');
           alert.removeClass('warning');
-        }
-        // TODO: make 500 status code handler
+        },
+        500: status500
       }
     });
 
@@ -463,7 +463,7 @@ function signupSubmit() {
         }
         ackMod.modal('toggle');
       },
-      406: (jqXHR) => {        // 406: not acceptable
+      400: (jqXHR) => {        // 400: bad request - syntax error
         // if modal has been closed do nothing
         // if modal is actual enable inputs and handle response signup error object
         if (!actual) return;
@@ -490,8 +490,8 @@ function signupSubmit() {
           if (txtNode.nodeValue !== ' ' + errors[field])
             txtNode.nodeValue = ' ' + errors[field];
         }
-      }
-      // TODO: make 500 status code handler
+      },
+      500: status500
     }
   });
 
@@ -614,8 +614,8 @@ function loginSubmit() {
         invalidLogin('Username/password is not correct',
             [logInputs.eq(0), logInputs.eq(1)],
             'server');
-      }
-      // TODO: make 500 status code request
+      },
+      500: status500
     }
   });
 
@@ -720,8 +720,8 @@ function pwdSubmit() {
         if (!actual) return;
 
         invalidPwdRequest('Username/e-mail is not correct', input);
-      }
-      // TODO: make 500 status code request
+      },
+      500: status500
     }
   });
 
@@ -746,4 +746,8 @@ function defaultPwd() {
   input.val('');
 
   pwdSub.removeClass('pressed');
+}
+
+function status500() {
+  window.location.href = '/error';
 }

@@ -2,7 +2,9 @@ const express = require('express'),
   signup = express.Router(),
   bcrypt = require('bcryptjs'),
   nodemailer = require('nodemailer'),
-  User = require('../../models/user');
+  User = require('../../models/user'),
+  winston = require('winston'),
+  authlogger = winston.loggers.get('auth-logger');
 
 let transporter = nodemailer.createTransport({
   service: 'Yandex',
@@ -19,7 +21,7 @@ signup.get('/acknowledge', (req, res, next) => {
     hash = req.query.hash;
 
   User.findOne({ name: username }, (err, user) => {
-    if (err) throw new Error('acknowledge finding error');
+    if (err) return next(new Error('Acknowledge finding error'));
 
     if (user !== null) {
       if (user.toObject().hash !== hash){
@@ -28,15 +30,15 @@ signup.get('/acknowledge', (req, res, next) => {
         return;
       }
       User.update({ name: username }, { $unset: { expireAt: '', hash: '' } }, (err, raw) => {
-        if (err) throw new Error('db updating error');
+        if (err) return next(new Error('Db updating error'));
 
-        console.log('"expireAt" and "hash" fields on ' + username + ' were deleted');
+        authlogger.debug('"expireAt" and "hash" fields on ' + username + ' were deleted');
 
         res.flash('regSuccess', 'You have been successfully verified! Now you can log in.');
         res.redirect('/');
       });
     } else {
-      console.log('there is no such user in db');
+      authlogger.debug('there is no such user in db');
 
       res.flash('regFailure', 'Failure! There is no credentials to confirm.');
       res.redirect('/');
@@ -48,12 +50,12 @@ signup.get('/unique', (req, res, next) => {
   let username = req.query.username;
 
   User.findOne({ name: username }, (err, user) => {
-    if (err) throw new Error('finding error on unique router');
+    if (err) return next(new Error('Finding error on unique router'));
 
     if (user === null)
       res.status(200).end();
     else
-      res.status(406).end();
+      res.status(400).end();
   });
 });
 
@@ -105,7 +107,7 @@ function validate(req, res, next) {
       next();
     },
     (err) => {
-      throw new Error('validation finding error');
+      return next(new Error('Validation finding error'));
     }
   );
 
@@ -125,13 +127,13 @@ function validate(req, res, next) {
 
 function respond(req, res, next) {
   if (req.validationErrors)
-    res.status(406).json(req.validationErrors);
+    res.status(400).json(req.validationErrors);
   else {
     bcrypt.genSalt(10, (err, salt) => {
-      if (err) throw new Error('bcrypt gensalt error');
+      if (err) return next(new Error('bcrypt gensalt error'));
 
       bcrypt.hash(req.body.password, salt, (err, hash) => {
-        if (err) throw new Error('bcrypt hash error');
+        if (err) return next(new Error('bcrypt hash error'));
 
         let user = new User({
           name: req.body.username,
@@ -141,32 +143,30 @@ function respond(req, res, next) {
         });
 
         user.save((err) => {
-          if (err) throw new Error('registration failed');
+          if (err) return next(new Error('Registration failed'));
 
           bcrypt.genSalt(10, (err, salt) => {
-            if (err) throw new Error('bcrypt gensalt error');
+            if (err) return next(new Error('bcrypt gensalt error'));
 
             bcrypt.hash(Math.random().toString(36).slice(2), salt, (err, hash) => {
-              if (err) throw new Error('bcrypt hash error');
+              if (err) return next(new Error('bcrypt hash error'));
 
               User.update({ name: req.body.username }, { $set: { hash: hash } }, (err, raw) => {
-                if (err) throw new Error('db updating error');
+                if (err) return next(new Error('Db updating error'));
               });
 
-              // TODO: make an actual recipient and path
               transporter.sendMail({
                 from: 'personal-vocabulary@yandex.com',
-                to: 'dany011094@gmail.com',
+                to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : req.body.email,
                 subject: 'Your personal-vocabulary account registration',
-                text: 'Use the suggested link to activate your account',
                 html: '<p>Use the suggested link to activate your account:</p>'
                   + '<a href="http://localhost:3000/signup/acknowledge?username='
                   + req.body.username + '&hash=' + hash + '">http://localhost:3000/signup/acknowledge?username='
                   + req.body.username + '&hash=' + hash + '</a>'
               },
               (err, info) => {
-                if (err) throw new Error('email message was not delivered');
-                console.log('message sent', info);
+                if (err) return next(new Error('Email message was not delivered'));
+                authlogger.verbose('message sent', info);
               });
             });
           });

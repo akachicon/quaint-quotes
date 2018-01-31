@@ -28,7 +28,10 @@ nav:after {
     height: 3px;
     width: 100%;
     background: linear-gradient(141deg, rgba(41, 154, 202, 0.71) 0%, rgba(31, 200, 219, 0.7) 31%, rgba(34, 146, 202, 0.71) 75%); /*15, 184, 173, 0.71*/
-    box-shadow: 0 2px 3px 0 #f0f0f0;
+}
+
+.body-alert {
+    border-radius: 0;
 }
 
 .tou .text-secondary,

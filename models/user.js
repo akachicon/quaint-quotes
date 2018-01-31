@@ -1,5 +1,7 @@
 const mongoose = require('mongoose'),
-  bcrypt = require('bcryptjs');
+  bcrypt = require('bcryptjs'),
+  winston = require('winston'),
+  logger = winston.loggers.get('main-logger');
 
 let userSchema = new mongoose.Schema({
   name: 'string',
@@ -14,7 +16,7 @@ let userSchema = new mongoose.Schema({
 userSchema.index({ expireAt: 1 }, {       // autoIndexes and background are true by default
   name: 'regIdx',
   sparse: true,
-  expireAfterSeconds: 300 // 60 * 60 * 24
+  expireAfterSeconds: 24 * 3600
 });
 
 let User = mongoose.model('User', userSchema);
@@ -71,9 +73,9 @@ User.validationChecks.password = [
 ];
 
 User.on('index', (err) => {
-  if (err) throw new Error('User model index creation has failed');
+  if (err) return logger.error(new Error('User model index creation has failed'));
 
-  console.log('User model index has been built');
+  logger.log('User model index has been built');
 });
 
 function updatePassword(username, newpwd, next) {

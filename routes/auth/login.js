@@ -3,15 +3,17 @@ const express = require('express'),
   bcrypt = require('bcryptjs'),
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
+  winston = require('winston'),
+  authlogger = winston.loggers.get('auth-logger'),
   User = require('../../models/user');
 
 passport.serializeUser((user, done) => {
-  console.log('serialized');
+  authlogger.debug('serialized');
   return done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log('deserialized');
+  authlogger.debug('deserialized');
   User.findById(id, { password: 0, __v: 0 }, (err, user) => {
     if (err) return done(err, false);
 
@@ -39,7 +41,7 @@ passport.use(new LocalStrategy({
         if (!isMatch)
           return done(null, false);
 
-        console.log('login passed');
+        authlogger.debug('login passed');
         return done(null, user.toObject());
       })
     })

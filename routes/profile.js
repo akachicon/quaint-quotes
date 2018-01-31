@@ -1,7 +1,9 @@
 const express = require('express'),
   profile = express.Router(),
   bcrypt = require('bcryptjs'),
-  User = require('../models/user');
+  User = require('../models/user'),
+  winston = require('winston'),
+  authlogger = winston.loggers.get('auth-logger');
 
 profile.get('/', (req, res) => {
   res.redirect('/profile/' + req.user.name);
@@ -55,7 +57,7 @@ function validateCreds(req, res, next) {
       next();
     },
     (err) => {
-      throw new Error('validation finding error');
+      next(new Error('Validation finding error'));
     }
   );
 
@@ -75,14 +77,14 @@ function validateCreds(req, res, next) {
 
 function respondCreds(req, res) {
   if (req.validationErrors)
-    res.status(406).json(req.validationErrors);
+    res.status(400).json(req.validationErrors);
   else {
     User.update({ name: req.user.name },
       { $set: { name: req.body.username, email: req.body.email } },
       (err, raw) => {
-        if (err) throw new Error('db updating error');
+        if (err) return next(new Error('Db updating error'));
 
-        console.log(`credentials for ${req.user.name} were updated to ${req.body.username} and ${req.body.email}`);
+        authlogger.debug(`credentials for ${req.user.name} were updated to ${req.body.username} and ${req.body.email}`);
 
         res.status(200).end();
     });
@@ -101,33 +103,33 @@ function updatePassword(req, res, next) {
 
   findUser.then((user) => {
     bcrypt.compare(oldpwd, user.toObject().password, (err, isMatch) => {
-      if (err) throw new Error('bcrypt error on update-password route');
+      if (err) return next(new Error('bcrypt error on update-password route'));
 
       if (!isMatch) {
         errors['oldpass'] = 'Entered password is not correct';
-        return res.status(406).json(errors);
+        return res.status(400).json(errors);
       }
 
       check('newpass', newpwd, pwdChecks);
 
       if (errors['newpass'])
-        return res.status(406).json(errors);
+        return res.status(400).json(errors);
 
       if (newpwd !== confpwd) {
         errors['confpass'] = 'Entered password does not match';
-        return res.status(406).json(errors);
+        return res.status(400).json(errors);
       }
 
       let updPassword = User.updatePassword(req.user.name, newpwd, next);
 
       updPassword.then(() => {
-        console.log(`password for ${req.user.name} changed to ${newpwd}`);
+        authlogger.debug(`password for ${req.user.name} changed to ${newpwd}`);
         res.status(200).end();
       });
     });
   },
   (err) => {
-    throw new Error('find error on update-password route');
+    next(new Error('Find error on update-password route'));
   });
 
   function check(field, value, checks) {

@@ -1,11 +1,14 @@
+const AccessError = require('../errors/http-error'),
+  winston = require('winston'),
+  authlogger = winston.loggers.get('auth-logger');
+
 function isAuthed(req, res, next) {
   if (req.user) {
-    console.log(req.user.name + ' passed auth-check');
+    authlogger.debug(req.user.name + ' passed auth-check');
     return next();
   }
 
-  console.log(req.originalUrl);
-  next(new Error('restricted resource'));       // TODO: make 'restricted resource' errors handler (may use 403 status)
+  next(new AccessError(403, 'You are not authorized for that kind of resources.'));
 }
 
 module.exports = isAuthed;

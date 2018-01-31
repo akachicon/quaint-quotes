@@ -49,7 +49,7 @@ raBtn.on('click', () => {
 
         makeInitial();
       },
-      406: (jqXHR) => {
+      400: (jqXHR) => {
         let res = jqXHR.responseJSON,
           uAlert = uTip.find('.username-alert'),
           eAlert = $('.email-alert'),
@@ -113,8 +113,8 @@ raBtn.on('click', () => {
 
           return tw.height();
         }
-      }
-      // TODO: make 500 status handler
+      },
+      500: status500
     }
   });
 
@@ -229,7 +229,7 @@ rpBtn.on('click', () => {
           successMsg.removeClass('just-showed');
         }, 400);
       },
-      406: (jqXHR) => {
+      400: (jqXHR) => {
         let errors = jqXHR.responseJSON;
 
         rpBtn.addClass('btn-acc-save-disabled');
@@ -278,8 +278,8 @@ rpBtn.on('click', () => {
 
           return res;
         }
-      }
-      // TODO: make 500 status code handler
+      },
+      500: status500
     }
   });
 
@@ -345,4 +345,8 @@ function makeInitialInputStyle() {
   underlines.removeClass('error');
   eAlert.css('height', '0');
   uAlert.css('height', '0');
+}
+
+function status500() {
+  window.location.href = '/error';
 }

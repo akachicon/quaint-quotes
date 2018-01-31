@@ -1,7 +1,9 @@
 const express = require('express'),
   pwdreset = express.Router(),
   nodemailer = require('nodemailer'),
-  User = require('../../models/user');
+  User = require('../../models/user'),
+  winston = require('winston'),
+  authlogger = winston.loggers.get('auth-logger');
 
 let transporter = nodemailer.createTransport({
   service: 'Yandex',
@@ -19,7 +21,7 @@ pwdreset.post('/', (req, res, next) => {       // in case session had staled whi
     findKey = { email: recipient };
 
   User.findOne(findKey, (err, user) => {
-    if (err) throw new Error('user finding error on reset-password route');
+    if (err) return next(new Error('User finding error on reset-password route'));
 
     if (user === null
         || user.toObject().hash)
@@ -35,15 +37,14 @@ pwdreset.post('/', (req, res, next) => {       // in case session had staled whi
     pwdUpdated.then(() => {
       transporter.sendMail({
           from: 'personal-vocabulary@yandex.com',
-          to: 'dany011094@gmail.com',       // TODO: make an actual recipient
+          to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : req.body.email,
           subject: 'Your personal-vocabulary password update',
-          text: 'Your new password is below. Remember to change it on profile page after log in.',
           html: '<p>Your new password is below. Remember to change it on profile page after you log in.</p>'
             + '<p style="font-size: 24px; font-weight: 600; color: #276884">' + pwd + '</p>'
         },
         (err, info) => {
-          if (err) throw new Error('email message was not delivered');
-          console.log('message sent', info);
+          if (err) return next(new Error('Email message was not delivered'));
+          authlogger.verbose('message sent', info);
         });
       res.flash('regSuccess', 'New password has been set! Check your e-mail to obtain (it may take a few minutes before message arrived)');
       res.status(200).end();
