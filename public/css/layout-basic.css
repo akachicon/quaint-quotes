@@ -1,4 +1,4 @@
-@media (max-width: 575px) {
+@media (max-width: 991px) {
     .custom-info {
         color: gray !important;
         font-weight: 400 !important;
@@ -39,6 +39,116 @@ nav:after {
 .modal-footer .text-secondary,
 .modal-footer a {
     font-size: .9rem;
+}
+
+#mobileSearch {
+    flex-grow: 1;
+}
+
+#desktopSearch {
+    min-width: 190px;
+    max-width: 400px;
+    width: 25%;
+}
+
+.search {
+    border-right: none;
+    flex-grow: 1;
+}
+
+.search-cog-icon {
+    color: #7b7c7c;
+    background: transparent;
+    border: none;
+}
+
+.search-cog-icon:focus {
+    outline: none;
+}
+
+.search-cog-icon:hover {
+    color: #333;
+}
+
+.btn-custom-search {
+    color: #7b7c7c;
+    background: #fefefe;
+    padding-right: 8px;
+    height: 100%;
+    border: 1px solid #cdd3d9;
+    border-left: none;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.btn-custom-search:hover,
+.btn-custom-search:active {
+    color: #0b8193;
+}
+
+.search:focus,
+.btn-custom-search:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #ccd2d8;
+}
+
+.dropdown-search-cog {
+    align-self: stretch;
+}
+
+.dropdown-search-cog .dropdown-menu {
+    margin-left: -16px;
+}
+
+.dropdown-search-cog .dropdown-menu:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -7px;
+    left: 18px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #d8d8d8;
+}
+
+.dropdown-search-cog .dropdown-menu:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -5px;
+    left: 19px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #fefefe;
+}
+
+#desktopSearchSettings:not(h4),
+#mobileSearchSettings:not(h4) {
+    font-size: .9rem;
+}
+
+#desktopSearchSettings input[type='text'],
+#mobileSearchSettings input[type='text'] {
+    font-size: .9rem;
+    color: #666;
+    margin-left: auto;
+    margin-right: 15px;
+    border-radius: 4px;
+    max-width: 50px;
+    padding: 0 0 0 6px;
+    max-height: 1.5rem;
+}
+
+#desktopSearchSettings input[type='text']:focus,
+#mobileSearchSettings input[type='text']:focus {
+    color: #222;
+    box-shadow: inset 0 0 1px 1px #3ca6c4;
+    outline: none;
 }
 
 #leftHeaderButton.custom-info,
@@ -166,18 +276,17 @@ nav:after {
 
 /*---creating custom checkbox---*/
 
-#loginModal [type="checkbox"]:not(:checked),
-#loginModal [type="checkbox"]:checked {
+.form-check [type="checkbox"],
+.form-check [type="radio"] {
     display: none;
 }
 
-#loginModal label,
-#loginModal label {
+.form-check label {
     cursor: pointer;
     user-select: none;
 }
 
-#loginModal label:before {
+.form-check label:before {
     content: '';
     position: absolute;
     margin-top: .3rem;
@@ -192,7 +301,7 @@ nav:after {
     box-shadow: 0 0 2px rgba(0,0,0,.3);
 }
 
-#loginModal label:after {
+.form-check label:after {
     content: '';
     background: #5eaeb2;
     position: absolute;
@@ -207,12 +316,13 @@ nav:after {
     transition: all .13s ease-in;
 }
 
-#loginModal [type="checkbox"]:not(:checked) + label:after {
+.form-check [type="checkbox"]:not(:checked) + label:after,
+.form-check [type="radio"]:not(:checked) + label:after {
     opacity: 0;
     transform: scale(0);
 }
 
-#loginModal label:hover:before {
+.form-check label:hover:before {
     border: 1px solid #777;
 }
 

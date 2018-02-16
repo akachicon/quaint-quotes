@@ -21,7 +21,7 @@ const logger = winston.loggers.get('main-logger');
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/templates');
 
-mongoose.connect('mongodb://ds161833.mlab.com:61833/pvocab', {
+mongoose.connect(process.env.DBADDRESS, {
   user: process.env.DBUSER,
   pass: process.env.DBPASSWORD,
   autoReconnect: true,
@@ -67,10 +67,13 @@ app.get(/.*\.map$/i, (req, res) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
+logger.silly('DEV_ADDRESS=' + process.env.DEV_ADDRESS);
+logger.silly('PROD_ADDRESS=' + process.env.PROD_ADDRESS);
+logger.silly('DBADDRESS=' + process.env.DBADDRESS);
 logger.silly('NODE_ENV=' + process.env.NODE_ENV);
 logger.silly('DBUSER=' + process.env.DBUSER);
 logger.silly('DBPASSWORD=' + process.env.DBPASSWORD);
-logger.silly('DEV_RECIPIENT=' + process.env.RECIPIENT);
+logger.silly('DEV_RECIPIENT=' + process.env.DEV_RECIPIENT);
 
 app.get('/error', pugOptions, (req, res) => {
   req.pugOptions.statusMessage = 'Sorry!';
@@ -97,8 +100,16 @@ app.use('/', auth);
 
 app.use('/profile', pugOptions, isAuthed, profile);
 
-app.get('/features', pugOptions, (req, res) => {
-  res.render('features', req.pugOptions);
+app.get('/authors', pugOptions, (req, res) => {
+  res.render('authors', req.pugOptions);
+});
+
+app.get('/topics', pugOptions, (req, res) => {
+  res.render('topics', req.pugOptions);
+});
+
+app.get('/favorites', pugOptions, isAuthed, (req, res) => {
+  res.render('favorites', req.pugOptions);
 });
 
 app.get('/termsofuse', pugOptions, (req, res) => {

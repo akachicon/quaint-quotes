@@ -7,8 +7,31 @@ html(lang='en')
       name='viewport'
       content='width=device-width, '
         + 'initial-scale=1, '
-        + 'shrink-to-fit=no'
+        + 'shrink-to-fit=no, '
+        + 'user-scalable=no'
     )
+    script.
+      if (screen.width < 410)
+        changeViewportWidth(410, 'yes');
+
+      screen.orientation.onchange = function () {
+        if (screen.width < 410)
+          changeViewportWidth(410, 'yes');
+        else
+          changeViewportWidth('device-width', 'no');
+      };
+
+      function changeViewportWidth(width, word) {
+        let viewport = document.querySelector("meta[name=viewport]");
+
+        viewport.parentNode.removeChild(viewport);
+
+        let newViewport = document.createElement("meta");
+
+        newViewport.setAttribute("name", "viewport");
+        newViewport.setAttribute("content", "width=" + width + ", shrink-to-fit=" + word + ", user-scalable=no");
+        document.head.appendChild(newViewport);
+      }
     link(
       rel='stylesheet'
       href='/css/bootstrap.min.css'
@@ -17,18 +40,102 @@ html(lang='en')
       rel='stylesheet'
       href='/css/layout-basic.css'
     )
-    if (profile)
+    if (page='account')
       include includes/profile-head
 
   body
     //- header
 
-    nav(class='navbar navbar-expand-sm navbar-light bg-light py-1')
+    nav(class='navbar navbar-expand-lg navbar-light bg-light py-1 pl-0 pr-2 pr-lg-3 pl-lg-1')
       a(
         class='navbar-brand py-0 my-0 mr-0'
         href='/'
       )
         img(src="/miscellaneous/logo.svg" width="90" height="50" alt='')
+      div(class='dropdown dropdown-search-cog d-flex my-1')
+        button(
+          id='mobileSearchHeaderSettings'
+          class='d-flex d-lg-none pl-0 search-cog-icon'
+          type='button'
+          data-toggle='dropdown'
+          aria-haspopup='true'
+          aria-expanded='false'
+        )
+          span(class='fas fa-lg fa-cog')
+        div(class='dropdown-menu aria-labelledby="mobileSearchHeaderSettings"')
+          form#mobileSearchSettings
+            div(class='form-group mb-2')
+              h4.dropdown-header Search for
+              div(class='pl-4 ml-2')
+                .form-check
+                  input(
+                    type='radio'
+                    id='quotesDDMCheck'
+                    class='form-check-input'
+                    name='searchFor'
+                    checked
+                  )
+                  label(
+                    for='quotesDDMCheck'
+                    class='form-check-label pl-4'
+                  ) quotes
+                .form-check
+                  input(
+                    type='radio'
+                    id='topicsDDMCheck'
+                    class='form-check-input'
+                    name='searchFor'
+                  )
+                  label(
+                    for='topicsDDMCheck'
+                    class='form-check-label pl-4'
+                  ) topics
+                .form-check
+                  input(
+                    type='radio'
+                    id='authorsDDMCheck'
+                    class='form-check-input'
+                    name='searchFor'
+                  )
+                  label(
+                    for='authorsDDMCheck'
+                    class='form-check-label pl-4'
+                  ) authors
+            div(class='form-group mb-2')
+              h4.dropdown-header Number of results per page
+              .input-group
+                span(class='pl-4 ml-2 mb-2') quotes
+                input(
+                  type='text'
+                  class='form-control'
+                  name='quotesPerPage'
+                  value='25'
+                )
+              .input-group
+                span(class='pl-4 ml-2 mb-1') topics/authors
+                input(
+                  type='text'
+                  class='form-control'
+                  name='topicsPerPage'
+                  value='50'
+                )
+      form(
+        class='form-inline d-flex d-lg-none mr-2'
+        id='mobileSearch'
+      )
+        div(class='input-group w-100')
+          input(
+            type='text'
+            class='form-control w-100 search'
+            name='search'
+            placeholder='Search for quotes'
+          )
+          .input-group-append
+            button(
+              class="btn-custom-search"
+              type="button"
+            )
+              span(class='fas fa-search')
       button(
         class='navbar-toggler'
         type='button'
@@ -52,8 +159,19 @@ html(lang='en')
           li.nav-item
             a(
               class='nav-link'
-              href='/features'
-            ) Features
+              href='/authors'
+            ) Authors
+          li.nav-item
+            a(
+              class='nav-link'
+              href='/topics'
+            ) Topics
+          if (authorized)
+            li.nav-item
+              a(
+                class='nav-link'
+                href='/favorites'
+              ) Favorites
           li.nav-item
             a(
               class='nav-link'
@@ -64,21 +182,104 @@ html(lang='en')
               class='nav-link'
               href='/contact'
             ) Contact
-        span(class='nav-link active d-none d-lg-inline') #{ (authorized ? '' : 'Welcome, ') + username }
+        div(class='dropdown dropdown-search-cog d-flex')
+          button(
+            id='desktopSearchHeaderSettings'
+            class='d-none d-lg-flex pl-0 search-cog-icon'
+            type='button'
+            data-toggle='dropdown'
+            aria-haspopup='true'
+            aria-expanded='false'
+          )
+            span(class='fas fa-fw fa-cog')
+          div(class='dropdown-menu aria-labelledby="desktopSearchHeaderSettings"')
+            form#desktopSearchSettings
+              div(class='form-group mb-2')
+                h4.dropdown-header Search for
+                div(class='pl-4 ml-2')
+                  .form-check
+                    input(
+                      type='radio'
+                      id='quotesDDDCheck'
+                      class='form-check-input'
+                      name='searchFor'
+                      checked
+                    )
+                    label(
+                      for='quotesDDDCheck'
+                      class='form-check-label pl-4'
+                    ) quotes
+                  .form-check
+                    input(
+                      type='radio'
+                      id='topicsDDDCheck'
+                      class='form-check-input'
+                      name='searchFor'
+                    )
+                    label(
+                      for='topicsDDDCheck'
+                      class='form-check-label pl-4'
+                    ) topics
+                  .form-check
+                    input(
+                      type='radio'
+                      id='authorsDDDCheck'
+                      class='form-check-input'
+                      name='searchFor'
+                    )
+                    label(
+                      for='authorsDDDCheck'
+                      class='form-check-label pl-4'
+                    ) authors
+              div(class='form-group mb-2')
+                h4.dropdown-header Number of results per page
+                .input-group
+                  span(class='pl-4 ml-2 mb-2') quotes
+                  input(
+                    type='text'
+                    class='form-control'
+                    name='quotesPerPage'
+                    value='25'
+                  )
+                .input-group
+                  span(class='pl-4 ml-2 mb-1') topics/authors
+                  input(
+                    type='text'
+                    class='form-control'
+                    name='topicsPerPage'
+                    value='50'
+                  )
+        form(
+          class='form-inline d-none d-lg-flex mr-2'
+          id='desktopSearch'
+        )
+          div(class='input-group w-100')
+            input(
+              type='text'
+              class='form-control  search'
+              name='search'
+              placeholder='Search for quotes'
+            )
+            .input-group-append
+              button(
+                class="btn-custom-search"
+                type="button"
+              )
+                span(class='fas fa-search')
         div(
-          class='btn-group buttons-header d-block d-sm-flex'
+          class='btn-group buttons-header d-block d-lg-flex'
           role='group'
           aria-label=authorized ? 'profile or exit' : 'login or signup'
         )
           button(
             id='leftHeaderButton'
             type='button'
-            class='btn btn-info custom-info d-block d-sm-inline-block'
+            class='btn btn-info custom-info d-block d-lg-inline-block'
           ) #{ authorized ? 'Profile' : 'LogIn' }
           button(
             id='rightHeaderButton'
             type='button'
-            class='btn btn-info custom-info d-block d-sm-inline-block'
+            class='btn btn-info custom-info d-block d-lg-inline-block'
           ) #{ authorized ? 'LogOut' : 'SignUp' }
 
     unless authorized
@@ -414,10 +615,12 @@ html(lang='en')
     script(src='/js/libs/bootstrap.min.js')
     script(src='/js/libs/fontawesome-all.min.js')
 
+    script(src='/js/search.js')
+
     if authorized
       script(src='/js/profile.js')
     else
       script(src='/js/auth.js')
 
-    if (profile)
+    if (page == 'account')
       script(src='/js/account.js')

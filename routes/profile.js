@@ -16,7 +16,7 @@ profile.get('/:username', (req, res) => {
     authorized: !!req.user,
     username: req.user.name,
     email: req.user.email,
-    profile: true
+    page: 'account'
   });
 });
 
