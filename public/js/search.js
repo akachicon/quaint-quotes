@@ -21,6 +21,33 @@ desktopSearchSettings.find(':text').on('keypress', checkBlur);
 mobileSearchSettings.find(':text').on('blur', onBlur);
 desktopSearchSettings.find(':text').on('blur', onBlur);
 
+let xhr, acOptions = {
+  source: (text, suggest) => {
+    try {
+      xhr.abort();
+    } catch(e) {}
+
+    xhr = $.getJSON('/search/' + searchFor, { query: text, skip: 0, limit: 7, autocomplete: true })
+      .done((data) => {
+        suggest(data);
+      });
+  },
+  minChars: 3,
+  delay: 100,
+  renderItem: (item, search) => {
+    console.log(item);
+    let suggestion = item[searchFor.slice(0, -1)];
+    return '<div class="autocomplete-suggestion" data-val="' + suggestion + '">' + suggestion + '</div>';
+  },
+  onSelect: (e, text, renderedItem) => {
+    console.log('Item "' + renderedItem.data('val') + '" selected by ' + (e.type === 'keydown' ? 'pressing enter' : 'mouse click'));
+  }
+};
+
+$('#desktopSearch input').autoComplete(acOptions);
+
+console.log();
+
 function hideDropdown(menu) {
   if (!menu.hasClass('show'))
     return;

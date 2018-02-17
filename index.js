@@ -12,6 +12,7 @@ const express = require('express'),
   pugOptions = require('./middleware/pug-options'),
   auth = require('./routes/auth'),
   profile = require('./routes/profile'),
+  search = require('./routes/search'),
   HttpError = require('./errors/http-error'),
   PORT = process.env.PORT;
 
@@ -70,6 +71,8 @@ app.use(passport.session());
 logger.silly('DEV_ADDRESS=' + process.env.DEV_ADDRESS);
 logger.silly('PROD_ADDRESS=' + process.env.PROD_ADDRESS);
 logger.silly('DBADDRESS=' + process.env.DBADDRESS);
+logger.silly('APP_MAIL_USR' + process.env.APP_MAIL_USR);
+logger.silly('APP_MAIL_PWD' + process.env.APP_MAIL_PWD);
 logger.silly('NODE_ENV=' + process.env.NODE_ENV);
 logger.silly('DBUSER=' + process.env.DBUSER);
 logger.silly('DBPASSWORD=' + process.env.DBPASSWORD);
@@ -99,6 +102,8 @@ app.get('/', pugOptions, (req, res) => {
 app.use('/', auth);
 
 app.use('/profile', pugOptions, isAuthed, profile);
+
+app.use('/search', search);
 
 app.get('/authors', pugOptions, (req, res) => {
   res.render('authors', req.pugOptions);

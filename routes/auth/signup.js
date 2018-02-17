@@ -9,8 +9,8 @@ const express = require('express'),
 let transporter = nodemailer.createTransport({
   service: 'Yandex',
   auth: {
-    user: 'personal-vocabulary@yandex.com',
-    pass: '_personal-Vocabu1ary'
+    user: process.env.APP_MAIL_USR,
+    pass: process.env.APP_MAIL_PWD
   }
 });
 
@@ -156,9 +156,9 @@ function respond(req, res, next) {
               });
 
               transporter.sendMail({
-                from: 'personal-vocabulary@yandex.com',
+                from: process.env.APP_MAIL_USR,
                 to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : req.body.email,
-                subject: 'Your personal-vocabulary account registration',
+                subject: 'Your quaint-quotes account registration',
                 html: '<p>Use the suggested link to activate your account:</p>'
                   + '<a href="http://'
                   + (process.env.NODE_ENV === 'development' ? process.env.DEV_ADDRESS : process.env.PROD_ADDRESS)

@@ -8,8 +8,8 @@ const express = require('express'),
 let transporter = nodemailer.createTransport({
   service: 'Yandex',
   auth: {
-    user: 'personal-vocabulary@yandex.com',
-    pass: '_personal-Vocabu1ary'
+    user: process.env.APP_MAIL_USR,
+    pass: process.env.APP_MAIL_PWD
   }
 });
 
@@ -36,9 +36,9 @@ pwdreset.post('/', (req, res, next) => {       // in case session had staled whi
 
     pwdUpdated.then(() => {
       transporter.sendMail({
-          from: 'personal-vocabulary@yandex.com',
+          from: process.env.APP_MAIL_PWD,
           to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : email,
-          subject: 'Your personal-vocabulary password update',
+          subject: 'Your quaint-quotes password update',
           html: '<p>Your new password is below. Remember to change it on profile page after you log in.</p>'
             + '<p style="font-size: 24px; font-weight: 600; color: #276884">' + pwd + '</p>'
         },

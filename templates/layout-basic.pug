@@ -40,6 +40,10 @@ html(lang='en')
       rel='stylesheet'
       href='/css/layout-basic.css'
     )
+    link(
+      rel='stylesheet'
+      href='/css/jquery.auto-complete.css'
+    )
     if (page='account')
       include includes/profile-head
 
@@ -611,6 +615,7 @@ html(lang='en')
       h2.pl-4 Sorry! No content to show.
 
     script(src='/js/libs/jquery-3.2.1.min.js')
+    script(src='/js/libs/jquery.auto-complete.min.js')
     script(src='/js/libs/popper.min.js')
     script(src='/js/libs/bootstrap.min.js')
     script(src='/js/libs/fontawesome-all.min.js')
