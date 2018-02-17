@@ -1,7 +1,7 @@
 {
-  "name": "tidy-auth",
+  "name": "quaint-quotes",
   "version": "0.0.1",
-  "description": "local authentication/authotization",
+  "description": "quotes list and search through authors and topics",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,7 +21,8 @@
     "responsive",
     "node",
     "mongo",
-    "mongodb"
+    "mongodb",
+    "quotes"
   ],
   "author": {
     "name": "Dan Z.",
@@ -30,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/akachicon/express-app-template-auth"
+    "url": "https://github.com/akachicon/quaint-quotes"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
