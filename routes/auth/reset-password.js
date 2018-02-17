@@ -36,7 +36,7 @@ pwdreset.post('/', (req, res, next) => {       // in case session had staled whi
 
     pwdUpdated.then(() => {
       transporter.sendMail({
-          from: process.env.APP_MAIL_PWD,
+          from: process.env.APP_MAIL_USR,
           to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : email,
           subject: 'Your quaint-quotes password update',
           html: '<p>Your new password is below. Remember to change it on profile page after you log in.</p>'
