@@ -157,7 +157,8 @@ nav:after {
 
 #mobileSearch .input-group-append,
 #desktopSearch .input-group-append {
-    align-self: stretch;
+    /*align-self: stretch;*/
+    background: violet;
 }
 
 #mobileSearch button,
