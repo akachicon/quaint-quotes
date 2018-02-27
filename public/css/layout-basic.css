@@ -162,7 +162,6 @@ nav:after {
 
 #mobileSearch button,
 #desktopSearch button {
-    display: block;
     align-self: stretch;
 }
 
