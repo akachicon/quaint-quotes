@@ -151,6 +151,10 @@ nav:after {
     outline: none;
 }
 
+#mobileSearch .input-group-append {
+    align-self: stretch;
+}
+
 #leftHeaderButton.custom-info,
 #rightHeaderButton.custom-info {
     font-weight: 500;
