@@ -14,13 +14,12 @@
     .nav-item {
         margin: auto;
     }
-}
-
-@media (max-width: 410px) {
-    nav {
-        /*max-width: 100vw;*/
+    /*.navbar {
         flex-wrap: nowrap;
-    }
+    }*/
+    /*.navbar-toggler {
+        flex-shrink: 1;
+    }*/
 }
 
 .custom-info {
@@ -50,6 +49,7 @@ nav:after {
 
 #mobileSearch {
     flex-grow: 1;
+    width: 0;
 }
 
 #desktopSearch {
@@ -60,7 +60,6 @@ nav:after {
 
 .search {
     border-right: none;
-    flex-grow: 1;
 }
 
 .search-cog-icon {
