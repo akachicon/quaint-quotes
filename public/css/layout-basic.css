@@ -157,12 +157,12 @@ nav:after {
 
 #mobileSearch .input-group-append,
 #desktopSearch .input-group-append {
-    align-self: stretch;
+    /*align-self: stretch;*/
 }
 
 #mobileSearch button,
 #desktopSearch button {
-    align-self: stretch;
+    /*align-self: stretch;*/
 }
 
 #leftHeaderButton.custom-info,
