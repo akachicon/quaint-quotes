@@ -162,7 +162,8 @@ nav:after {
 
 #mobileSearch button,
 #desktopSearch button {
-    line-height: 38px;
+    display: block;
+    align-self: center;
 }
 
 #leftHeaderButton.custom-info,
