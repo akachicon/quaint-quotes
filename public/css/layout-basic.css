@@ -162,7 +162,7 @@ nav:after {
 
 #mobileSearch button,
 #desktopSearch button {
-    padding: 7px 7px;
+    line-height: 38px;
 }
 
 #leftHeaderButton.custom-info,
