@@ -127,6 +127,10 @@ nav:after {
     border-bottom: 6px solid #fefefe;
 }
 
+.dropdown-search-cog button {
+    padding: 7px 7px;
+}
+
 #desktopSearchSettings:not(h4),
 #mobileSearchSettings:not(h4) {
     font-size: .9rem;
@@ -151,12 +155,14 @@ nav:after {
     outline: none;
 }
 
-#mobileSearch .input-group-append {
+#mobileSearch .input-group-append,
+#desktopSearch .input-group-append {
     align-self: stretch;
 }
 
-#mobileSearch button {
-    padding: 6px 8px;
+#mobileSearch button,
+#desktopSearch button {
+    padding: 7px 7px;
 }
 
 #leftHeaderButton.custom-info,
