@@ -1,11 +1,16 @@
 'use strict';
 
 const mobileSearchSettings = $('#mobileSearchHeaderSettings').parent(),
-    desktopSearchSettings = $('#desktopSearchHeaderSettings').parent();
+  desktopSearchSettings = $('#desktopSearchHeaderSettings').parent(),
+  mobileSearch = $('#mobileSearch input'),
+  desktopSearch = $('#desktopSearch input');
 
 window.addEventListener("orientationchange", () => {
   hideDropdown(mobileSearchSettings);
   hideDropdown(desktopSearchSettings);
+
+  mobileSearch.trigger('blur');
+  desktopSearch.trigger('blur');
 });
 
 let searchFor = 'quotes',
@@ -18,14 +23,17 @@ desktopSearchSettings.on('hide.bs.dropdown', ddClose);
 mobileSearchSettings.find(':text').on('keypress', checkBlur);
 desktopSearchSettings.find(':text').on('keypress', checkBlur);
 
-mobileSearchSettings.find(':text').on('blur', onBlur);
-desktopSearchSettings.find(':text').on('blur', onBlur);
+mobileSearchSettings.find(':text').on('blur', settingsOnBlur);
+desktopSearchSettings.find(':text').on('blur', settingsOnBlur);
+
+mobileSearch.on('blur', inputOnBlur);
+desktopSearch.on('blur', inputOnBlur);
 
 let xhr, acOptions = {
   source: (text, suggest) => {
     try {
       xhr.abort();
-    } catch(e) {}
+    } catch(e) { console.log('xhr aborted') }
 
     xhr = $.getJSON('/search/' + searchFor, { query: text, skip: 0, limit: 7, autocomplete: true })
       .done((data) => {
@@ -34,9 +42,19 @@ let xhr, acOptions = {
   },
   minChars: 3,
   delay: 100,
+  cache: false,
+  menuClass: 'search-dropdown',
   renderItem: (item, search) => {
     console.log(item);
-    let suggestion = item[searchFor.slice(0, -1)];
+    let suggestion;
+
+    if (item.fullName)
+      suggestion = item.fullName;
+    else if (item.name)
+      suggestion = item.name.slice(0, -7);
+    else
+      suggestion = item[searchFor.slice(0, -1)];
+
     return '<div class="autocomplete-suggestion" data-val="' + suggestion + '">' + suggestion + '</div>';
   },
   onSelect: (e, text, renderedItem) => {
@@ -44,9 +62,8 @@ let xhr, acOptions = {
   }
 };
 
-$('#desktopSearch input').autoComplete(acOptions);
-
-console.log();
+mobileSearch.autoComplete(acOptions);
+desktopSearch.autoComplete(acOptions);
 
 function hideDropdown(menu) {
   if (!menu.hasClass('show'))
@@ -75,7 +92,7 @@ function ddClose(e) {
 
 function saveSettingsFrom(menu) {
   searchFor = menu.find(':checked').next().text();
-  // quotesNum = menu.find('input[name="quotesPerPage"]').val();        onBlur saves quotesNum and topicsNum
+  // quotesNum = menu.find('input[name="quotesPerPage"]').val();        settingsOnBlur saves quotesNum and topicsNum
   // topicsNum = menu.find('input[name="topicsPerPage"]').val();
 }
 
@@ -96,7 +113,7 @@ function checkBlur(e) {
     e.currentTarget.blur();
 }
 
-function onBlur(e) {
+function settingsOnBlur(e) {
   let t = $(e.currentTarget);
 
   if (!Number.isInteger(+t.val())) {
@@ -117,4 +134,11 @@ function onBlur(e) {
     quotesNum = t.val();
   else
     topicsNum = t.val();
+}
+
+function inputOnBlur(e) {
+  let t = $(e.currentTarget);
+
+  mobileSearch.val(t.val());
+  desktopSearch.val(t.val());
 }

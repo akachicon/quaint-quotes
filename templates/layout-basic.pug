@@ -12,16 +12,16 @@ html(lang='en')
     )
     script.
       if (screen.width < 410)
-        changeViewportWidth(410, 'yes');
+        changeViewportWidth(410, screen.width / 410, 'yes');
 
       screen.orientation.onchange = function () {
         if (screen.width < 410)
-          changeViewportWidth(410, 'yes');
+          changeViewportWidth(410, screen.width / 410, 'yes');
         else
-          changeViewportWidth('device-width', 'no');
+          changeViewportWidth('device-width', 1.0, 'no');
       };
 
-      function changeViewportWidth(width, word) {
+      function changeViewportWidth(width, initialScale, stf) {
         let viewport = document.querySelector("meta[name=viewport]");
 
         viewport.parentNode.removeChild(viewport);
@@ -29,7 +29,12 @@ html(lang='en')
         let newViewport = document.createElement("meta");
 
         newViewport.setAttribute("name", "viewport");
-        newViewport.setAttribute("content", "width=" + width + ", shrink-to-fit=" + word + ", user-scalable=no");
+        newViewport.setAttribute("content", "width=" + width
+          + ", initial-scale=" + initialScale
+          + ", maximum-scale=" + initialScale
+          + ", maximum-scale=" + initialScale
+          + ", shrink-to-fit=" + stf
+          + ", user-scalable=no");
         document.head.appendChild(newViewport);
       }
     link(
@@ -260,7 +265,7 @@ html(lang='en')
           div(class='input-group w-100')
             input(
               type='text'
-              class='form-control  search'
+              class='form-control search'
               name='search'
               placeholder='Search for quotes'
             )
