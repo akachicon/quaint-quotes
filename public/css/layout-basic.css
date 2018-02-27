@@ -16,6 +16,12 @@
     }
 }
 
+@media (max-width: 410px) {
+    nav {
+        max-width: 100vw;
+    }
+}
+
 .custom-info {
     background: transparent;
 }
