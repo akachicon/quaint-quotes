@@ -73,7 +73,7 @@ nav:after {
 .btn-custom-search {
     color: #7b7c7c;
     background: #fefefe;
-    padding-top: 12px;
+    padding-top: 0px;
     padding-right: 8px;
     border: 1px solid #cdd3d9;
     border-left: none;
