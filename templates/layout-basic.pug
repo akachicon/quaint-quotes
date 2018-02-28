@@ -6,36 +6,46 @@ html(lang='en')
     meta(
       name='viewport'
       content='width=device-width, '
-        + 'initial-scale=1, '
+        + 'initial-scale=1.0, '
         + 'shrink-to-fit=no, '
         + 'user-scalable=no'
     )
+    script(src='/js/libs/jquery-3.2.1.min.js')
+    script(src='/js/libs/jquery.mobile.custom.min.js')
     script.
       if (screen.width < 410)
         changeViewportWidth(410, screen.width / 410, 'yes');
 
-      screen.orientation.onchange = function () {
+      $(window).on("orientationchange", function () {
         if (screen.width < 410)
           changeViewportWidth(410, screen.width / 410, 'yes');
         else
           changeViewportWidth('device-width', 1.0, 'no');
-      };
+      });
 
       function changeViewportWidth(width, initialScale, stf) {
         let viewport = document.querySelector("meta[name=viewport]");
 
-        viewport.parentNode.removeChild(viewport);
+        if (viewport)
+          viewport.parentNode.removeChild(viewport);
 
         let newViewport = document.createElement("meta");
 
         newViewport.setAttribute("name", "viewport");
         newViewport.setAttribute("content", "width=" + width
           + ", initial-scale=" + initialScale
-          + ", maximum-scale=" + initialScale
+          + ", minimum-scale=" + initialScale
           + ", maximum-scale=" + initialScale
           + ", shrink-to-fit=" + stf
           + ", user-scalable=no");
         document.head.appendChild(newViewport);
+
+        if (document.body) {
+          document.body.style.opacity = .9999;
+          setTimeout(function () {
+            document.body.style.opacity = 1;
+          }, 10);
+        }
       }
     link(
       rel='stylesheet'
@@ -619,7 +629,6 @@ html(lang='en')
     block content
       h2.pl-4 Sorry! No content to show.
 
-    script(src='/js/libs/jquery-3.2.1.min.js')
     script(src='/js/libs/jquery.auto-complete.min.js')
     script(src='/js/libs/popper.min.js')
     script(src='/js/libs/bootstrap.min.js')

@@ -5,10 +5,10 @@ const mobileSearchSettings = $('#mobileSearchHeaderSettings').parent(),
   mobileSearch = $('#mobileSearch input'),
   desktopSearch = $('#desktopSearch input');
 
-window.addEventListener("orientationchange", () => {
+$( window ).on( "orientationchange", () => {
   hideDropdown(mobileSearchSettings);
   hideDropdown(desktopSearchSettings);
-
+  
   mobileSearch.trigger('blur');
   desktopSearch.trigger('blur');
 });
