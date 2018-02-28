@@ -163,7 +163,7 @@ nav:after {
 
 #mobileSearch button,
 #desktopSearch button {
-    /*align-self: stretch;*/
+    align-self: stretch!important;
 }
 
 #leftHeaderButton.custom-info,
