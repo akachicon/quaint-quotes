@@ -9,8 +9,8 @@ const express = require('express'),
 let transporter = nodemailer.createTransport({
   service: 'Yandex',
   auth: {
-    user: process.env.APP_MAIL_USR,
-    pass: process.env.APP_MAIL_PWD
+    user: process.env.APP_EMAIL_USR,
+    pass: process.env.APP_EMAIL_PWD
   }
 });
 
@@ -156,15 +156,15 @@ function respond(req, res, next) {
               });
 
               transporter.sendMail({
-                from: process.env.APP_MAIL_USR,
-                to: process.env.NODE_ENV === 'development' ? process.env.DEV_RECIPIENT : req.body.email,
+                from: process.env.APP_EMAIL_USR,
+                to: process.env.NODE_ENV === 'development' ? process.env.APP_DEV_EMAIL_RECIPIENT : req.body.email,
                 subject: 'Your quaint-quotes account registration',
                 html: '<p>Use the suggested link to activate your account:</p>'
                   + '<a href="http://'
-                  + (process.env.NODE_ENV === 'development' ? process.env.DEV_ADDRESS : process.env.PROD_ADDRESS)
+                  + process.env.APP_ADDRESS
                   + '/signup/acknowledge?username='
                   + req.body.username + '&hash=' + hash + '">http://'
-                  + (process.env.NODE_ENV === 'development' ? process.env.DEV_ADDRESS : process.env.PROD_ADDRESS)
+                  + process.env.APP_ADDRESS
                   + '/signup/acknowledge?username='
                   + req.body.username + '&hash=' + hash + '</a>'
               },

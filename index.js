@@ -13,6 +13,9 @@ const express = require('express'),
   auth = require('./routes/auth'),
   profile = require('./routes/profile'),
   search = require('./routes/search'),
+  /*quotes = require('routes/quotes'),
+  authors = require('routes/authors'),
+  topics = require('routes/topics'),*/
   HttpError = require('./errors/http-error'),
   PORT = process.env.PORT;
 
@@ -22,9 +25,9 @@ const logger = winston.loggers.get('main-logger');
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/templates');
 
-mongoose.connect(process.env.DBADDRESS, {
-  user: process.env.DBUSER,
-  pass: process.env.DBPASSWORD,
+mongoose.connect(process.env.APP_DB_ADDRESS, {
+  user: process.env.APP_DB_USR,
+  pass: process.env.APP_DB_PWD,
   autoReconnect: true,
   reconnectTries: 60,
   reconnectInterval: 10000,
@@ -68,24 +71,25 @@ app.get(/.*\.map$/i, (req, res) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-logger.silly('DEV_ADDRESS=' + process.env.DEV_ADDRESS);
-logger.silly('PROD_ADDRESS=' + process.env.PROD_ADDRESS);
-logger.silly('DBADDRESS=' + process.env.DBADDRESS);
-logger.silly('APP_MAIL_USR=' + process.env.APP_MAIL_USR);
-logger.silly('APP_MAIL_PWD=' + process.env.APP_MAIL_PWD);
 logger.silly('NODE_ENV=' + process.env.NODE_ENV);
-logger.silly('DBUSER=' + process.env.DBUSER);
-logger.silly('DBPASSWORD=' + process.env.DBPASSWORD);
-logger.silly('DEV_RECIPIENT=' + process.env.DEV_RECIPIENT);
+logger.silly('APP_ADDRESS=' + process.env.APP_ADDRESS);         // app address
+logger.silly('APP_DB_ADDRESS=' + process.env.APP_DB_ADDRESS);   // db connection string (without creds)
+logger.silly('APP_DB_USR=' + process.env.APP_DB_USR);           // user field when connecting to db
+logger.silly('APP_DB_PWD=' + process.env.APP_DB_PWD);           // password field when connecting to db
+logger.silly('APP_EMAIL_USR=' + process.env.APP_EMAIL_USR);     // email from which app will send messages (supposed to use yandex service within nodemailer)
+logger.silly('APP_EMAIL_PWD=' + process.env.APP_EMAIL_PWD);     // password for APP_EMAIL_USR
+logger.silly('APP_DEV_EMAIL_RECIPIENT=' + process.env.APP_DEV_EMAIL_RECIPIENT);     // email to receive app's messages when NODE_ENV=development
 
-app.get('/error', pugOptions, (req, res) => {
+app.use(pugOptions);
+
+app.get('/error', (req, res) => {
   req.pugOptions.statusMessage = 'Sorry!';
   req.pugOptions.clientMessage = 'Internal server error.';
 
   res.render('errors/http', req.pugOptions);
 });
 
-app.get('/', pugOptions, (req, res) => {
+app.get('/', (req, res) => {
   let flash = res.locals.flash,
     options = req.pugOptions;
 
@@ -96,36 +100,40 @@ app.get('/', pugOptions, (req, res) => {
 
   res.append('Cache-Control', 'public, no-cache');
 
+  options.contentWrapper = true;
+  options.leftSidebarHeader = 'Popular Authors';
+  options.leftSidebarItems = ['W. S. Gilbert', 'Aneurin Bevan', 'Madame Dorothee Deluzy', 'Hannah Arendt', 'Old saying', 'Tracey Ullman', 'Homer', 'William H. Johnson', 'Caroline Begelow LeRow', 'Henry George', 'W. S. Gilbert', 'Aneurin Bevan', 'Madame Dorothee Deluzy', 'Hannah Arendt', 'Old saying', 'Tracey Ullman'];
+  options.rightSidebarHeader = 'Popular Topics';
+  options.rightSidebarItems = ['Government and Rule', '	Bargain', 'Punctuality', 'Homo Sapiens', 'Canada and Canadians', 'Censorship', '	Ridicule', 'Sad', '	Change and Transience', 'Secrecy'];
+
   res.render('home', options);
 });
 
 app.use('/', auth);
 
-app.use('/profile', pugOptions, isAuthed, profile);
+app.use('/profile', isAuthed, profile);
 
 app.use('/search', search);
 
-app.get('/authors', pugOptions, (req, res) => {
-  res.render('authors', req.pugOptions);
-});
+/*app.use('/quotes', quotes);
 
-app.get('/topics', pugOptions, (req, res) => {
-  res.render('topics', req.pugOptions);
-});
+app.use('/authors', authors);
 
-app.get('/favorites', pugOptions, isAuthed, (req, res) => {
+app.use('/topics', topics);*/
+
+app.get('/favorites', isAuthed, (req, res) => {
   res.render('favorites', req.pugOptions);
 });
 
-app.get('/termsofuse', pugOptions, (req, res) => {
+app.get('/termsofuse', (req, res) => {
   res.render('tou', req.pugOptions);
 });
 
-app.get('/contact', pugOptions, (req, res) => {
+app.get('/contact', (req, res) => {
   res.render('contact', req.pugOptions);
 });
 
-app.use(pugOptions, (req, res, next) => {
+app.use((req, res, next) => {
   next(new HttpError(404, 'The resource does not exist.'));
 });
 

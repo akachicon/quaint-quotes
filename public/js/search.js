@@ -8,7 +8,7 @@ const mobileSearchSettings = $('#mobileSearchHeaderSettings').parent(),
 $( window ).on( "orientationchange", () => {
   hideDropdown(mobileSearchSettings);
   hideDropdown(desktopSearchSettings);
-  
+
   mobileSearch.trigger('blur');
   desktopSearch.trigger('blur');
 });
@@ -46,19 +46,26 @@ let xhr, acOptions = {
   menuClass: 'search-dropdown',
   renderItem: (item, search) => {
     console.log(item);
-    let suggestion;
+    let suggestion,
+      link;
 
-    if (item.fullName)
+    if (item.fullName) {
       suggestion = item.fullName;
-    else if (item.name)
+      link = item.fullName;
+    }
+    else if (item.name) {
       suggestion = item.name.slice(0, -7);
-    else
-      suggestion = item[searchFor.slice(0, -1)];
+      link = item.name;
+    }
+    else {
+      suggestion = item.quote;
+      link = item['quote_id'];
+    }
 
-    return '<div class="autocomplete-suggestion" data-val="' + suggestion + '">' + suggestion + '</div>';
+    return '<div class="autocomplete-suggestion" data-link="' + link + '">' + suggestion + '</div>';
   },
   onSelect: (e, text, renderedItem) => {
-    console.log('Item "' + renderedItem.data('val') + '" selected by ' + (e.type === 'keydown' ? 'pressing enter' : 'mouse click'));
+    console.log('Link "' + renderedItem.data('link') + '" selected');
   }
 };
 

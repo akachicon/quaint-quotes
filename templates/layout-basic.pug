@@ -59,6 +59,8 @@ html(lang='en')
       rel='stylesheet'
       href='/css/jquery.auto-complete.css'
     )
+    if (contentWrapper)
+      include includes/content-wrapper-head
     if (page='account')
       include includes/profile-head
 

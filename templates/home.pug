@@ -1,13 +1,7 @@
-extends layout-basic
+extends layout-content-wrapper
 
-block content
-  if (regSuccess)
-    p(
-      class='alert alert-success body-alert'
-      role='alert') #{ regSuccess }
-  if (regFailure)
-    p(
-      class='alert alert-danger body-alert'
-      role='alert') #{ regFailure }
+block specific-content-wrapped
+  h2.pl-4 Your are at home now. Wrapped!
 
+block specific-content
   h2.pl-4 Your are at home now. Welcome!

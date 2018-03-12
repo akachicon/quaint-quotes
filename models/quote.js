@@ -38,4 +38,8 @@ Quote.search = function (parameters) {
   ]);
 };
 
+Quote.findById = function (id) {
+  return Quote.findOne({ quote_id: id }).exec();
+};
+
 module.exports = Quote;

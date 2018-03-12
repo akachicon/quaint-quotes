@@ -1,0 +1,29 @@
+extends layout-basic
+
+block content
+  if (regSuccess)
+    p(
+      class='alert alert-success body-alert'
+      role='alert') #{ regSuccess }
+  if (regFailure)
+    p(
+      class='alert alert-danger body-alert'
+      role='alert') #{ regFailure }
+
+  mixin sidebar-content(header, items)
+    .sidebar-header !{header}
+    each item in items
+      .sidebar-item
+        a(href='#')= item
+
+  if (contentWrapper)
+    div(class='container-fluid cw-container mt-2 mt-sm-3')
+      div(class='row')
+        div(class='col-sm-6 col-lg-3 order-2 order-lg-1 cw-sidebar cw-left-sidebar')
+          +sidebar-content(leftSidebarHeader, leftSidebarItems)
+        div(class='col-12 col-lg-6 order-1 order-lg-2 cw-main-content')
+          block specific-content-wrapped
+        div(class='col-sm-6 col-lg-3 order-3 cw-sidebar cw-right-sidebar')
+          +sidebar-content(rightSidebarHeader, rightSidebarItems)
+  else
+    block specific-content
