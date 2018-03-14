@@ -16,17 +16,6 @@ Author.search = function (parameters) {
   let skip = +parameters.skip,
     limit = +parameters.limit;
 
-  if (!Number.isInteger(skip) || !Number.isInteger(limit)
-      || skip < 0
-      || limit < 0
-      || limit > 500) {
-    logger.warn('Attempt requesting authors collection with invalid parameters has been prevented');
-
-    return new Promise((resolve, reject) => {
-      reject(new Error('Invalid params for db request'));       // use Error to respond with 500 status
-    });
-  }
-
   return Author.aggregate([
     { $match: { $text: { $search: parameters.query } } },
     { $sort: { score: { $meta: "textScore" } } },

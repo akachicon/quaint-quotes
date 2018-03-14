@@ -94,7 +94,7 @@ html(lang='en')
                     id='quotesDDMCheck'
                     class='form-check-input'
                     name='searchFor'
-                    checked
+                    checked=searchFor === 'quotes'
                   )
                   label(
                     for='quotesDDMCheck'
@@ -106,6 +106,7 @@ html(lang='en')
                     id='topicsDDMCheck'
                     class='form-check-input'
                     name='searchFor'
+                    checked=searchFor === 'topics'
                   )
                   label(
                     for='topicsDDMCheck'
@@ -117,6 +118,7 @@ html(lang='en')
                     id='authorsDDMCheck'
                     class='form-check-input'
                     name='searchFor'
+                    checked=searchFor === 'authors'
                   )
                   label(
                     for='authorsDDMCheck'
@@ -130,7 +132,7 @@ html(lang='en')
                   type='text'
                   class='form-control'
                   name='quotesPerPage'
-                  value='25'
+                  value=quotesPerPage
                 )
               .input-group
                 span(class='pl-4 ml-2 mb-1') topics/authors
@@ -138,7 +140,7 @@ html(lang='en')
                   type='text'
                   class='form-control'
                   name='topicsPerPage'
-                  value='50'
+                  value=topicsPerPage
                 )
       form(
         class='form-inline d-lg-none mr-2'
@@ -224,7 +226,7 @@ html(lang='en')
                       id='quotesDDDCheck'
                       class='form-check-input'
                       name='searchFor'
-                      checked
+                      checked=searchFor === 'quotes'
                     )
                     label(
                       for='quotesDDDCheck'
@@ -236,6 +238,7 @@ html(lang='en')
                       id='topicsDDDCheck'
                       class='form-check-input'
                       name='searchFor'
+                      checked=searchFor === 'topics'
                     )
                     label(
                       for='topicsDDDCheck'
@@ -247,6 +250,7 @@ html(lang='en')
                       id='authorsDDDCheck'
                       class='form-check-input'
                       name='searchFor'
+                      checked=searchFor === 'authors'
                     )
                     label(
                       for='authorsDDDCheck'
@@ -260,7 +264,7 @@ html(lang='en')
                     type='text'
                     class='form-control'
                     name='quotesPerPage'
-                    value='25'
+                    value=quotesPerPage
                   )
                 .input-group
                   span(class='pl-4 ml-2 mb-1') topics/authors
@@ -268,7 +272,7 @@ html(lang='en')
                     type='text'
                     class='form-control'
                     name='topicsPerPage'
-                    value='50'
+                    value=topicsPerPage
                   )
         form(
           class='form-inline d-none d-lg-flex mr-2'

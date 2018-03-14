@@ -5,7 +5,7 @@ const mobileSearchSettings = $('#mobileSearchHeaderSettings').parent(),
   mobileSearch = $('#mobileSearch input'),
   desktopSearch = $('#desktopSearch input');
 
-$( window ).on( "orientationchange", () => {
+$(window).on( "orientationchange", () => {
   hideDropdown(mobileSearchSettings);
   hideDropdown(desktopSearchSettings);
 
@@ -13,9 +13,9 @@ $( window ).on( "orientationchange", () => {
   desktopSearch.trigger('blur');
 });
 
-let searchFor = 'quotes',
-  quotesNum = '25',
-  topicsNum = '50';
+let searchFor = desktopSearchSettings.find(':checked').next().text(),
+  quotesNum = desktopSearchSettings.find('input[name="quotesPerPage"]').val(),
+  topicsNum = desktopSearchSettings.find('input[name="topicsPerPage"]').val();
 
 mobileSearchSettings.on('hide.bs.dropdown', ddClose);
 desktopSearchSettings.on('hide.bs.dropdown', ddClose);
@@ -35,7 +35,7 @@ let xhr, acOptions = {
       xhr.abort();
     } catch(e) { console.log('xhr aborted') }
 
-    xhr = $.getJSON('/search/' + searchFor, { query: text, skip: 0, limit: 7, autocomplete: true })
+    xhr = $.getJSON('/search/' + searchFor, { query: text, autocomplete: true })
       .done((data) => {
         suggest(data);
       });
@@ -101,6 +101,11 @@ function saveSettingsFrom(menu) {
   searchFor = menu.find(':checked').next().text();
   // quotesNum = menu.find('input[name="quotesPerPage"]').val();        settingsOnBlur saves quotesNum and topicsNum
   // topicsNum = menu.find('input[name="topicsPerPage"]').val();
+
+  $.ajax('/search/settings', {
+    data: 'searchFor=' + searchFor + menu.find('form').serialize().slice(12),
+    method: 'POST'
+  });
 }
 
 function provideSettingsTo(menu) {
